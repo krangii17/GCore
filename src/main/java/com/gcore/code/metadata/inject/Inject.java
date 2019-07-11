@@ -1,8 +1,8 @@
-package com.gcore.code;
+package com.gcore.code.inject;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Component {
+public @interface Inject {
 }

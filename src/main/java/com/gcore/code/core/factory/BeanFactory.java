@@ -19,11 +19,12 @@ public class BeanFactory {
     private String basePackage;
 
     public void init(String folderPath) {
+        container = new MyContainer();
+        basePackage = folderPath;
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         try {
             Enumeration<URL> resources = classLoader.getResources(folderPath);
             parseFilesDataFromFolders(resources);
-            basePackage = folderPath;
         } catch (IOException e) {
             logger.info(e.getMessage());
             throw new FolderNotFoundException("Can't find this folder in your application");
@@ -49,7 +50,7 @@ public class BeanFactory {
             if (fileName.endsWith(".class")) {
                 String className = fileName.substring(0, fileName.lastIndexOf("."));
                 try {
-                    Class classObject = Class.forName(basePackage + "." + className);
+                    Class classObject = Class.forName(basePackage.replace("/", ".") + "." + className);
                     if (classObject.isAnnotationPresent(Component.class) || classObject.isAnnotationPresent(Service.class)) {
                         logger.info("Bean in class " + classObject);
                         Object instance = classObject.newInstance();

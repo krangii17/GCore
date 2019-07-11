@@ -24,9 +24,13 @@ public class PropertiesParse {
         try {
             InputStream fis = new FileInputStream(folder);
             property.load(fis);
-            return property.getProperty(Helpfull.FOLDER_PROPERTIES_KEY);
+            return replacer(property.getProperty(Helpfull.FOLDER_PROPERTIES_KEY));
         } catch (IOException e) {
             throw new PropertiesNotFoundException("Error to find properties file");
         }
+    }
+
+    private String replacer(String replaceDots) {
+        return replaceDots.replace(".", "/");
     }
 }

@@ -7,12 +7,21 @@ import org.slf4j.LoggerFactory;
 
 public class ApplicationContext {
     private static final Logger logger = LoggerFactory.getLogger(ApplicationContext.class);
-    private BeanFactory beanFactory;
+    private BeanFactory beanFactory = new BeanFactory();
+    private PropertiesParse parse;
+
+    public ApplicationContext() {
+        parse = new PropertiesParse();
+        init();
+    }
 
     public ApplicationContext(String scanPackage) {
+        parse = new PropertiesParse(scanPackage);
+        init();
+    }
+
+    private void init(){
         logger.info("_______ApplicationContext_______");
-        beanFactory = new BeanFactory();
-        PropertiesParse parse = new PropertiesParse();
         beanFactory.init(parse.getFolder());
     }
 

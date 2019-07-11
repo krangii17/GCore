@@ -1,4 +1,4 @@
-package com.gcore.code;
+package com.gcore.code.test;
 
 import com.gcore.code.core.metadata.stereotype.Component;
 

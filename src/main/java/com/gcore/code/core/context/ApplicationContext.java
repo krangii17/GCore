@@ -23,6 +23,10 @@ public class ApplicationContext {
     private void init(){
         logger.info("_______ApplicationContext_______");
         beanFactory.init(parse.getFolder());
+        beanFactory.setAllFieldsAnnotatedByAutowired();
     }
 
+    public Object getBeanByName(String name) {
+        return beanFactory.getContainer().getByValue(name);
+    }
 }

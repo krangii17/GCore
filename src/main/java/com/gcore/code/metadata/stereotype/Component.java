@@ -1,4 +1,4 @@
-package com.gcore.code.stereotype;
+package com.gcore.code.metadata.stereotype;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

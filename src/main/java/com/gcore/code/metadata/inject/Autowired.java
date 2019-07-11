@@ -1,4 +1,4 @@
-package com.gcore.code.inject;
+package com.gcore.code.metadata.inject;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

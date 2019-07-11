@@ -1,4 +1,4 @@
-package com.gcore.code.contatiner;
+package com.gcore.code.core.contatiner;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +10,11 @@ public class MyContainer {
         map.put(name, obj);
     }
 
-    public Object getBean(String name){
+    public Object getBean(String name) {
         return map.get(name);
     }
 
-    public Map<String, Object> getAllBeans(){
+    public Map<String, Object> getAllBeans() {
         return map;
     }
 }

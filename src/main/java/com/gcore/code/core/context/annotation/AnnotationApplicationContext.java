@@ -4,7 +4,6 @@ import com.gcore.code.core.config.BeanPostProcessor;
 import com.gcore.code.core.context.ApplicationContext;
 import com.gcore.code.core.factory.BeanFactory;
 import com.gcore.code.core.factory.beanfactory.BeanAnnotationFactory;
-import com.gcore.code.core.metadata.inject.Autowired;
 import com.gcore.code.core.parser.PropertiesParse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,17 +30,17 @@ public class AnnotationApplicationContext implements ApplicationContext {
         beanFactory.injectBeanFactoryAwaresBeans();
     }
 
-    @Autowired
+    @Override
     public void initBeanPostProcessor() {
         beanFactory.initializeBeans();
     }
 
-    @Autowired
+    @Override
     public void addToBeanPostProcessorContainer(BeanPostProcessor postProcessor) {
         beanFactory.addToBeanPostProcessor(postProcessor);
     }
 
-    @Autowired
+    @Override
     public Object getBeanByName(String name) {
         return beanFactory.getContainer().getByName(name);
     }

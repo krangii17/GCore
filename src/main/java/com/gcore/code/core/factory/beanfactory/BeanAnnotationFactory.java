@@ -30,7 +30,7 @@ public class BeanAnnotationFactory implements BeanFactory {
     private PostProccessorContatiner postProccessorContatiner;
     private String basePackage;
 
-    @Autowired
+    @Override
     public void init(String folderPath) {
         container = MyContainer.getInstance();
         postProccessorContatiner = PostProccessorContatiner.getInstance();
@@ -45,7 +45,7 @@ public class BeanAnnotationFactory implements BeanFactory {
         }
     }
 
-    @Autowired
+    @Override
     public void setAllFieldsContext() {
         for (Object object : container.getAllValues()) {
             for (Field field : object.getClass().getDeclaredFields()) {
@@ -57,7 +57,7 @@ public class BeanAnnotationFactory implements BeanFactory {
         }
     }
 
-    @Autowired
+    @Override
     public void injectBeanFactoryAwaresBeans() {
         for (String name : container.getKeySet()) {
             Object bean = container.getByName(name);
@@ -67,7 +67,7 @@ public class BeanAnnotationFactory implements BeanFactory {
         }
     }
 
-    @Autowired
+    @Override
     public void initializeBeans() {
         for (String name : container.getKeySet()) {
             Object bean = container.getByName(name);
@@ -83,12 +83,12 @@ public class BeanAnnotationFactory implements BeanFactory {
         }
     }
 
-    @Autowired
+    @Override
     public void addToBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
         postProccessorContatiner.addPostProcessor(beanPostProcessor);
     }
 
-    @Autowired
+    @Override
     public MyContainer getContainer() {
         return container;
     }

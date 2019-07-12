@@ -1,4 +1,4 @@
-package com.gcore.code.core.factory;
+package com.gcore.code.core.factory.beanfactory;
 
 import com.gcore.code.core.contatiner.MyContainer;
 import com.gcore.code.core.exception.FolderNotFoundException;

@@ -1,6 +1,6 @@
 package com.gcore.code.core.context;
 
-import com.gcore.code.core.factory.BeanFactory;
+import com.gcore.code.core.factory.beanfactory.BeanFactory;
 import com.gcore.code.core.parser.PropertiesParse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

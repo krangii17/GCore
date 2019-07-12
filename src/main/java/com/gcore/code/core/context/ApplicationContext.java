@@ -1,5 +1,6 @@
 package com.gcore.code.core.context;
 
+import com.gcore.code.core.config.BeanPostProcessor;
 import com.gcore.code.core.factory.beanfactory.BeanFactory;
 import com.gcore.code.core.parser.PropertiesParse;
 import org.slf4j.Logger;
@@ -24,9 +25,20 @@ public class ApplicationContext {
         logger.info("_______ApplicationContext_______");
         beanFactory.init(parse.getFolder());
         beanFactory.setAllFieldsAnnotatedByAutowired();
+        beanFactory.injectBeanFactoryAwaresBeans();
+    }
+
+    public void initBeanPostProcessor(){
+        beanFactory.initializeBeans();
+    }
+
+
+
+    public void addToBeanPostProcessorContainer(BeanPostProcessor postProcessor){
+        beanFactory.addToBeanPostProcessor(postProcessor);
     }
 
     public Object getBeanByName(String name) {
-        return beanFactory.getContainer().getByValue(name);
+        return beanFactory.getContainer().getByName(name);
     }
 }

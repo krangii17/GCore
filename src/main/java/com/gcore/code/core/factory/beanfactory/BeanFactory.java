@@ -1,7 +1,11 @@
 package com.gcore.code.core.factory.beanfactory;
 
+import com.gcore.code.core.config.BeanPostProcessor;
 import com.gcore.code.core.contatiner.MyContainer;
+import com.gcore.code.core.contatiner.PostProccessorContatiner;
 import com.gcore.code.core.exception.FolderNotFoundException;
+import com.gcore.code.core.factory.BeanFactoryAware;
+import com.gcore.code.core.factory.InitializingBean;
 import com.gcore.code.core.metadata.inject.Autowired;
 import com.gcore.code.core.metadata.inject.Inject;
 import com.gcore.code.core.metadata.stereotype.Bean;
@@ -22,10 +26,12 @@ import java.lang.reflect.Method;
 public class BeanFactory {
     private static final Logger logger = LoggerFactory.getLogger(BeanFactory.class);
     private MyContainer container;
+    private PostProccessorContatiner postProccessorContatiner;
     private String basePackage;
 
     public void init(String folderPath) {
         container = new MyContainer();
+        postProccessorContatiner = new PostProccessorContatiner();
         basePackage = folderPath;
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         try {
@@ -46,6 +52,35 @@ public class BeanFactory {
                 }
             }
         }
+    }
+
+
+    public void injectBeanFactoryAwaresBeans() {
+        for (String name : container.getKeySet()) {
+            Object bean = container.getByName(name);
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanName(name);
+            }
+        }
+    }
+
+    public void initializeBeans() {
+        for (String name : container.getKeySet()) {
+            Object bean = container.getByName(name);
+            for (BeanPostProcessor postProcessor : postProccessorContatiner.getAll()) {
+                postProcessor.postProcessBeforeInitialization(bean, name);
+            }
+            if (bean instanceof InitializingBean) {
+                ((InitializingBean) bean).afterPropertiesSet();
+            }
+            for (BeanPostProcessor postProcessor : postProccessorContatiner.getAll()) {
+                postProcessor.postProcessAfterInitialization(bean, name);
+            }
+        }
+    }
+
+    public void addToBeanPostProcessor(BeanPostProcessor beanPostProcessor){
+        postProccessorContatiner.addPostProcessor(beanPostProcessor);
     }
 
     private void setFields(Field field, Object object){

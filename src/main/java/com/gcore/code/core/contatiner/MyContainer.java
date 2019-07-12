@@ -8,7 +8,19 @@ import java.util.Map;
 import java.util.Set;
 
 public class MyContainer {
-    private Map<String, Object> map = new HashMap();
+    private static Map<String, Object> map;
+
+    private static MyContainer instance;
+
+    private MyContainer(){ }
+
+    public static synchronized MyContainer getInstance() {
+        if (instance == null) {
+            map = new HashMap();
+            instance = new MyContainer();
+        }
+        return instance;
+    }
 
     public void addToContainer(String name, Object obj) {
         map.put(name, obj);

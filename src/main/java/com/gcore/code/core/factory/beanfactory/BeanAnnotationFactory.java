@@ -4,6 +4,7 @@ import com.gcore.code.core.config.BeanPostProcessor;
 import com.gcore.code.core.contatiner.MyContainer;
 import com.gcore.code.core.contatiner.PostProccessorContatiner;
 import com.gcore.code.core.exception.FolderNotFoundException;
+import com.gcore.code.core.factory.BeanFactory;
 import com.gcore.code.core.factory.BeanFactoryAware;
 import com.gcore.code.core.factory.InitializingBean;
 import com.gcore.code.core.metadata.inject.Autowired;
@@ -23,15 +24,16 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
 
-public class BeanFactory {
-    private static final Logger logger = LoggerFactory.getLogger(BeanFactory.class);
+public class BeanAnnotationFactory implements BeanFactory {
+    private static final Logger logger = LoggerFactory.getLogger(BeanAnnotationFactory.class);
     private MyContainer container;
     private PostProccessorContatiner postProccessorContatiner;
     private String basePackage;
 
+    @Autowired
     public void init(String folderPath) {
-        container = new MyContainer();
-        postProccessorContatiner = new PostProccessorContatiner();
+        container = MyContainer.getInstance();
+        postProccessorContatiner = PostProccessorContatiner.getInstance();
         basePackage = folderPath;
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         try {
@@ -43,7 +45,8 @@ public class BeanFactory {
         }
     }
 
-    public void setAllFieldsAnnotatedByAutowired() {
+    @Autowired
+    public void setAllFieldsContext() {
         for (Object object : container.getAllValues()) {
             for (Field field : object.getClass().getDeclaredFields()) {
                 if (field.isAnnotationPresent(Autowired.class)
@@ -54,6 +57,7 @@ public class BeanFactory {
         }
     }
 
+    @Autowired
     public void injectBeanFactoryAwaresBeans() {
         for (String name : container.getKeySet()) {
             Object bean = container.getByName(name);
@@ -63,6 +67,7 @@ public class BeanFactory {
         }
     }
 
+    @Autowired
     public void initializeBeans() {
         for (String name : container.getKeySet()) {
             Object bean = container.getByName(name);
@@ -78,8 +83,14 @@ public class BeanFactory {
         }
     }
 
+    @Autowired
     public void addToBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
         postProccessorContatiner.addPostProcessor(beanPostProcessor);
+    }
+
+    @Autowired
+    public MyContainer getContainer() {
+        return container;
     }
 
     private void setFields(Field field, Object object) {
@@ -129,9 +140,5 @@ public class BeanFactory {
                 }
             }
         }
-    }
-
-    public MyContainer getContainer() {
-        return container;
     }
 }

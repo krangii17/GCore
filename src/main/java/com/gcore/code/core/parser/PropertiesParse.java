@@ -11,7 +11,7 @@ import java.util.Properties;
 public class PropertiesParse {
     private String folder;
 
-    public PropertiesParse(){
+    public PropertiesParse() {
         this.folder = Helpfull.DEFAULT_FOLDER;
     }
 

@@ -18,10 +18,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
-import java.lang.reflect.Method;
 
 public class BeanFactory {
     private static final Logger logger = LoggerFactory.getLogger(BeanFactory.class);
@@ -43,7 +43,7 @@ public class BeanFactory {
         }
     }
 
-    public void setAllFieldsAnnotatedByAutowired(){
+    public void setAllFieldsAnnotatedByAutowired() {
         for (Object object : container.getAllValues()) {
             for (Field field : object.getClass().getDeclaredFields()) {
                 if (field.isAnnotationPresent(Autowired.class)
@@ -53,7 +53,6 @@ public class BeanFactory {
             }
         }
     }
-
 
     public void injectBeanFactoryAwaresBeans() {
         for (String name : container.getKeySet()) {
@@ -79,11 +78,11 @@ public class BeanFactory {
         }
     }
 
-    public void addToBeanPostProcessor(BeanPostProcessor beanPostProcessor){
+    public void addToBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
         postProccessorContatiner.addPostProcessor(beanPostProcessor);
     }
 
-    private void setFields(Field field, Object object){
+    private void setFields(Field field, Object object) {
         for (Object dependency : container.getAllValues()) {
             if (dependency.getClass().equals(field.getType())) {
                 String setterName = "set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
@@ -97,7 +96,7 @@ public class BeanFactory {
         }
     }
 
-    private void parseFilesDataFromFolders(Enumeration<URL> resources){
+    private void parseFilesDataFromFolders(Enumeration<URL> resources) {
         while (resources.hasMoreElements()) {
             URL resource = resources.nextElement();
             try {
@@ -125,8 +124,7 @@ public class BeanFactory {
                         String beanName = className.substring(0, 1).toLowerCase() + className.substring(1);
                         container.addToContainer(beanName, instance);
                     }
-                }
-                catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                     logger.error(e.getMessage());
                 }
             }

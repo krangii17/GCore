@@ -2,7 +2,10 @@ package com.gcore.code.core.contatiner;
 
 import com.gcore.code.core.contatiner.exception.NoSuchBeanException;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class MyContainer {
     private Map<String, Object> map = new HashMap();
@@ -19,19 +22,18 @@ public class MyContainer {
         return map;
     }
 
-    public Collection<Object> getAllValues(){
+    public Collection<Object> getAllValues() {
         return map.values();
     }
 
-    public Object getByName(String name){
-        if(map.get(name)!= null)
-        {
+    public Object getByName(String name) {
+        if (map.get(name) != null) {
             return map.get(name);
         }
         throw new NoSuchBeanException("No such bean with this name in container");
     }
 
-    public Set<String> getKeySet(){
+    public Set<String> getKeySet() {
         return map.keySet();
     }
 }

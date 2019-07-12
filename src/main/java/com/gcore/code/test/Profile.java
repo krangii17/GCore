@@ -8,7 +8,7 @@ public class Profile {
     @Autowired
     User user;
 
-    public void aVoid(){
+    public void aVoid() {
         System.out.println(user.getAge());
     }
 

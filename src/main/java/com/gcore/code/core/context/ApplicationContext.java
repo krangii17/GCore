@@ -21,20 +21,19 @@ public class ApplicationContext {
         init();
     }
 
-    private void init(){
+    private void init() {
         logger.info("_______ApplicationContext_______");
         beanFactory.init(parse.getFolder());
         beanFactory.setAllFieldsAnnotatedByAutowired();
         beanFactory.injectBeanFactoryAwaresBeans();
     }
 
-    public void initBeanPostProcessor(){
+    public void initBeanPostProcessor() {
         beanFactory.initializeBeans();
     }
 
 
-
-    public void addToBeanPostProcessorContainer(BeanPostProcessor postProcessor){
+    public void addToBeanPostProcessorContainer(BeanPostProcessor postProcessor) {
         beanFactory.addToBeanPostProcessor(postProcessor);
     }
 

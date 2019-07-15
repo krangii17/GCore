@@ -20,27 +20,31 @@ public class XMLApplicationContext implements ApplicationContext {
         init();
     }
 
-    public XMLApplicationContext(String xmlDefenition,String scanPackage) {
+    public XMLApplicationContext(String xmlDefenition, String scanPackage) {
         this.xmlDefenition = xmlDefenition;
         parse = new PropertiesParse(scanPackage);
         init();
     }
 
-    private void init(){
-
+    private void init() {
+        logger.info("_______XMLApplicationContext_______");
+        beanFactory.init(xmlDefenition);
+        beanFactory.setAllFieldsContext();
+        beanFactory.injectBeanFactoryAwaresBeans();
     }
+
     @Override
     public void initBeanPostProcessor() {
-
+        beanFactory.initializeBeans();
     }
 
     @Override
     public void addToBeanPostProcessorContainer(BeanPostProcessor postProcessor) {
-
+        beanFactory.addToBeanPostProcessor(postProcessor);
     }
 
     @Override
     public Object getBeanByName(String name) {
-        return null;
+        return beanFactory.getContainer().getByName(name);
     }
 }

@@ -12,7 +12,8 @@ public class MyContainer {
 
     private static MyContainer instance;
 
-    private MyContainer(){ }
+    private MyContainer() {
+    }
 
     public static synchronized MyContainer getInstance() {
         if (instance == null) {

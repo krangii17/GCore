@@ -7,15 +7,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PropertiesParseTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     private PropertiesParse parse;
     private PropertiesParse parseWithProperties;
     private PropertiesParse falseProperties;
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -36,7 +35,7 @@ public class PropertiesParseTest {
         //WHEN
         String folder = parse.getFolder();
         //THEN
-        assertEquals("com/gcore/code/test",folder);
+        assertEquals("com/gcore/code/test", folder);
     }
 
     @Test
@@ -44,11 +43,11 @@ public class PropertiesParseTest {
         //WHEN
         String folder = parseWithProperties.getFolder();
         //THEN
-        assertEquals("com/gcore/code/withargs",folder);
+        assertEquals("com/gcore/code/withargs", folder);
     }
 
     @Test()
-    public void cantFindProperties(){
+    public void cantFindProperties() {
         thrown.expect(PropertiesNotFoundException.class);
         thrown.expectMessage("Error to find properties file");
         falseProperties.getFolder();

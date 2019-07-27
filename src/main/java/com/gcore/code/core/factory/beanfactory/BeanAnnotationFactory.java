@@ -1,12 +1,8 @@
 package com.gcore.code.core.factory.beanfactory;
 
-import com.gcore.code.core.config.BeanPostProcessor;
-import com.gcore.code.core.contatiner.MyContainer;
-import com.gcore.code.core.contatiner.PostProccessorContatiner;
 import com.gcore.code.core.exception.FolderNotFoundException;
 import com.gcore.code.core.factory.BeanFactory;
 import com.gcore.code.core.factory.BeanFactoryAware;
-import com.gcore.code.core.factory.InitializingBean;
 import com.gcore.code.core.metadata.inject.Autowired;
 import com.gcore.code.core.metadata.inject.Inject;
 import com.gcore.code.core.metadata.stereotype.Bean;
@@ -24,17 +20,12 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
 
-public class BeanAnnotationFactory implements BeanFactory {
+public class BeanAnnotationFactory extends BeanFactory {
     private static final Logger logger = LoggerFactory.getLogger(BeanAnnotationFactory.class);
-    private MyContainer container;
-    private PostProccessorContatiner postProccessorContatiner;
-    private String basePackage;
 
     @Override
     public void init(String folderPath) {
-        container = MyContainer.getInstance();
-        postProccessorContatiner = PostProccessorContatiner.getInstance();
-        basePackage = folderPath;
+        super.init(folderPath);
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         try {
             Enumeration<URL> resources = classLoader.getResources(folderPath);
@@ -47,7 +38,7 @@ public class BeanAnnotationFactory implements BeanFactory {
 
     @Override
     public void setAllFieldsContext() {
-        for (Object object : container.getAllValues()) {
+        for (Object object : super.getContainer().getAllValues()) {
             for (Field field : object.getClass().getDeclaredFields()) {
                 if (field.isAnnotationPresent(Autowired.class)
                         || field.isAnnotationPresent(Inject.class)) {
@@ -59,42 +50,16 @@ public class BeanAnnotationFactory implements BeanFactory {
 
     @Override
     public void injectBeanFactoryAwaresBeans() {
-        for (String name : container.getKeySet()) {
-            Object bean = container.getByName(name);
+        for (String name : super.getContainer().getKeySet()) {
+            Object bean = super.getContainer().getByName(name);
             if (bean instanceof BeanFactoryAware) {
                 ((BeanFactoryAware) bean).setBeanName(name);
             }
         }
     }
 
-    @Override
-    public void initializeBeans() {
-        for (String name : container.getKeySet()) {
-            Object bean = container.getByName(name);
-            for (BeanPostProcessor postProcessor : postProccessorContatiner.getAll()) {
-                postProcessor.postProcessBeforeInitialization(bean, name);
-            }
-            if (bean instanceof InitializingBean) {
-                ((InitializingBean) bean).afterPropertiesSet();
-            }
-            for (BeanPostProcessor postProcessor : postProccessorContatiner.getAll()) {
-                postProcessor.postProcessAfterInitialization(bean, name);
-            }
-        }
-    }
-
-    @Override
-    public void addToBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
-        postProccessorContatiner.addPostProcessor(beanPostProcessor);
-    }
-
-    @Override
-    public MyContainer getContainer() {
-        return container;
-    }
-
     private void setFields(Field field, Object object) {
-        for (Object dependency : container.getAllValues()) {
+        for (Object dependency : super.getContainer().getAllValues()) {
             if (dependency.getClass().equals(field.getType())) {
                 String setterName = "set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
                 try {
@@ -126,14 +91,14 @@ public class BeanAnnotationFactory implements BeanFactory {
             if (fileName.endsWith(".class")) {
                 String className = fileName.substring(0, fileName.lastIndexOf("."));
                 try {
-                    Class classObject = Class.forName(basePackage.replace("/", ".") + "." + className);
+                    Class classObject = Class.forName(super.getBasePackage().replace("/", ".") + "." + className);
                     if (classObject.isAnnotationPresent(Bean.class)
                             || classObject.isAnnotationPresent(Service.class)
                             || classObject.isAnnotationPresent(Component.class)) {
                         logger.info("Bean in class " + classObject);
                         Object instance = classObject.newInstance();
                         String beanName = className.substring(0, 1).toLowerCase() + className.substring(1);
-                        container.addToContainer(beanName, instance);
+                        super.getContainer().addToContainer(beanName, instance);
                     }
                 } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                     logger.error(e.getMessage());

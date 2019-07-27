@@ -2,17 +2,54 @@ package com.gcore.code.core.factory;
 
 import com.gcore.code.core.config.BeanPostProcessor;
 import com.gcore.code.core.contatiner.MyContainer;
+import com.gcore.code.core.contatiner.PostProccessorContatiner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public interface BeanFactory {
-    void init(String folderPath);
+public abstract class BeanFactory {
+    private static final Logger logger = LoggerFactory.getLogger(BeanFactory.class);
+    private MyContainer container;
+    private PostProccessorContatiner postProccessorContatiner;
+    private String basePackage;
 
-    void injectBeanFactoryAwaresBeans();
+    public abstract void injectBeanFactoryAwaresBeans();
 
-    void setAllFieldsContext();
+    public abstract void setAllFieldsContext();
 
-    void initializeBeans();
+    public void init(String folderPath) {
+        container = MyContainer.getInstance();
+        postProccessorContatiner = PostProccessorContatiner.getInstance();
+        basePackage = folderPath;
+    }
 
-    void addToBeanPostProcessor(BeanPostProcessor beanPostProcessor);
+    public void initializeBeans() {
+        for (String name : container.getKeySet()) {
+            Object bean = container.getByName(name);
+            for (BeanPostProcessor postProcessor : postProccessorContatiner.getAll()) {
+                postProcessor.postProcessBeforeInitialization(bean, name);
+            }
+            if (bean instanceof InitializingBean) {
+                ((InitializingBean) bean).afterPropertiesSet();
+            }
+            for (BeanPostProcessor postProcessor : postProccessorContatiner.getAll()) {
+                postProcessor.postProcessAfterInitialization(bean, name);
+            }
+        }
+    }
 
-    MyContainer getContainer();
+    public void addToBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+        postProccessorContatiner.addPostProcessor(beanPostProcessor);
+    }
+
+    public MyContainer getContainer() {
+        return container;
+    }
+
+    public String getBasePackage() {
+        return basePackage;
+    }
+
+    public PostProccessorContatiner getPostProccessorContatiner() {
+        return postProccessorContatiner;
+    }
 }

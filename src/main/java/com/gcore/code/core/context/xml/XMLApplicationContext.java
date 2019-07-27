@@ -8,7 +8,7 @@ import com.gcore.code.core.parser.PropertiesParse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class XMLApplicationContext implements ApplicationContext {
+public final class XMLApplicationContext implements ApplicationContext {
     private static final Logger logger = LoggerFactory.getLogger(XMLApplicationContext.class);
     private BeanFactory beanFactory = new BeanXMLFactory();
     private PropertiesParse parse;

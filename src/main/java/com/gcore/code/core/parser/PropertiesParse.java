@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class PropertiesParse {
+public final class PropertiesParse {
     private String folder;
 
     public PropertiesParse() {

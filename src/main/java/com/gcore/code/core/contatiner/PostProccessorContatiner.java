@@ -5,7 +5,7 @@ import com.gcore.code.core.config.BeanPostProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostProccessorContatiner {
+public final class PostProccessorContatiner {
     private static List<BeanPostProcessor> postProcessors;
     private static PostProccessorContatiner instance;
 

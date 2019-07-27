@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class MyContainer {
+public final class MyContainer {
     private static Map<String, Object> map;
 
     private static MyContainer instance;

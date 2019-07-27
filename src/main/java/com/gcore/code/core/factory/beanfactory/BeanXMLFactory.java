@@ -10,7 +10,7 @@ import javax.xml.stream.events.XMLEvent;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class BeanXMLFactory extends BeanFactory {
+public final class BeanXMLFactory extends BeanFactory {
     private static final Logger logger = LoggerFactory.getLogger(BeanXMLFactory.class);
 
     @Override

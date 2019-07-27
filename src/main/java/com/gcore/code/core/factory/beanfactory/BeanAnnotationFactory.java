@@ -20,7 +20,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
 
-public class BeanAnnotationFactory extends BeanFactory {
+public final class BeanAnnotationFactory extends BeanFactory {
     private static final Logger logger = LoggerFactory.getLogger(BeanAnnotationFactory.class);
 
     @Override

@@ -8,7 +8,7 @@ import com.gcore.code.core.parser.PropertiesParse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AnnotationApplicationContext implements ApplicationContext {
+public final class AnnotationApplicationContext implements ApplicationContext {
     private static final Logger logger = LoggerFactory.getLogger(AnnotationApplicationContext.class);
     private BeanFactory beanFactory = new BeanAnnotationFactory();
     private PropertiesParse parse;

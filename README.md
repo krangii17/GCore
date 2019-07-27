@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/krangii17/GCore.svg?branch=master)](https://travis-ci.org/krangii17/GCore)
+
 This is Spring Core simple clone.
 
 This is annotation way to use Gcore 

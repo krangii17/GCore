@@ -1,6 +1,6 @@
 package com.gcore.code.core.util;
 
-public class Helpfull {
+public final class Helpfull {
     private final String DEFAULT_FOLDER = "src/main/resources/gcoreconfig.properties";
     private final String FOLDER_PROPERTIES_KEY = "gcore.folder";
 

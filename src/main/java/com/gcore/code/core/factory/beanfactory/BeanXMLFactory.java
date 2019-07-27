@@ -14,11 +14,6 @@ public final class BeanXMLFactory extends BeanFactory {
     private static final Logger logger = LoggerFactory.getLogger(BeanXMLFactory.class);
 
     @Override
-    public void injectBeanFactoryAwaresBeans() {
-
-    }
-
-    @Override
     public void setAllFieldsContext() {
         try (StaxStreamProcessor processor = new StaxStreamProcessor(Files.newInputStream(Paths.get(super.getBasePackage())))) {
             XMLStreamReader reader = processor.getReader();

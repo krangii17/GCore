@@ -48,16 +48,6 @@ public final class BeanAnnotationFactory extends BeanFactory {
         }
     }
 
-    @Override
-    public void injectBeanFactoryAwaresBeans() {
-        for (String name : super.getContainer().getKeySet()) {
-            Object bean = super.getContainer().getByName(name);
-            if (bean instanceof BeanFactoryAware) {
-                ((BeanFactoryAware) bean).setBeanName(name);
-            }
-        }
-    }
-
     private void setFields(Field field, Object object) {
         for (Object dependency : super.getContainer().getAllValues()) {
             if (dependency.getClass().equals(field.getType())) {

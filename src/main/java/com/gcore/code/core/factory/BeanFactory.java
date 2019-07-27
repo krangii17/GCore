@@ -12,7 +12,14 @@ public abstract class BeanFactory {
     private PostProccessorContatiner postProccessorContatiner;
     private String basePackage;
 
-    public abstract void injectBeanFactoryAwaresBeans();
+    public void injectBeanFactoryAwaresBeans(){
+        for (String name : container.getKeySet()) {
+            Object bean = container.getByName(name);
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanName(name);
+            }
+        }
+    }
 
     public abstract void setAllFieldsContext();
 

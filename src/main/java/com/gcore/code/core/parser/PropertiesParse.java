@@ -12,7 +12,7 @@ public final class PropertiesParse {
     private String folder;
 
     public PropertiesParse() {
-        this.folder = Helpfull.DEFAULT_FOLDER;
+        this.folder = new Helpfull().getDefaultFolder();
     }
 
     public PropertiesParse(String folder) {
@@ -24,7 +24,7 @@ public final class PropertiesParse {
         try {
             InputStream fis = new FileInputStream(folder);
             property.load(fis);
-            return replacer(property.getProperty(Helpfull.FOLDER_PROPERTIES_KEY));
+            return replacer(property.getProperty(new Helpfull().getFolderPropertiesKey()));
         } catch (IOException e) {
             throw new PropertiesNotFoundException("Error to find properties file");
         }

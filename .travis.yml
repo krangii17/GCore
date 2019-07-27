@@ -1,0 +1,5 @@
+language: java
+before_script:
+- mvn clean package
+script:
+- mvn test package

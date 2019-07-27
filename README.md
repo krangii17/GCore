@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/krangii17/GCore.svg?branch=master)](https://travis-ci.org/krangii17/GCore)
+[![Hits-of-Code](https://hitsofcode.com/github/krangii17/gcore)](https://hitsofcode.com/view/github/krangii17/gcore)
 
 This is Spring Core simple clone.
 
